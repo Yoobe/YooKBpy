@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../python/Pico"
+		},
+		{
+			"path": "E:/"
+		},
+		{
+			"path": "F:/"
+		}
+	],
+	"settings": {
+		"multiCommand.commands": [
+			{
+				"command": "multiCommand.copyFile",
+				"label": "Copy file to board (f:)",
+				"description": "copy the current $file to another root hard-coded destination, require 'command-runner' plugin.",
+				"interval": 1,
+				"sequence": [
+					"workbench.action.files.save",
+					{
+						"command": "command-runner.run",
+						"args": { "command": "cp \"${file}\" \"e:/${relativeFile}\"" },
+						"when": "config.Yoo.copy.enabled" // Must be "config.{settingName}"
+					}
+				]
+			}
+		],
+		"files.exclude": {
+			"*.code-workspace": true
+		}
+	}
+}
