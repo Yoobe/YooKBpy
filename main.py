@@ -41,6 +41,11 @@ print( "F. Mem", gc.mem_free()/1000, "KB" )
 
 # OLED
 import oled
+import asciiart 
+
+# Load first image "Welcome"
+asciiart.printAscii(55, 5, asciiart.cat1)
+asciiart.Mario(85, 45)
 
 # print("Init OLED")
 # oled.oled_init()
@@ -79,15 +84,16 @@ def key_debug(key, keyboard, *args):
     keyCount += 1
     # check if key exists in the Codes table
     val = KEY_CODES[key.code] if key.code in KEY_CODES else "NA"
-    oled.text(5, 55, f"{val}   {keyCount}", 0xFFFF00)
-    print( "M", gc.mem_free()/1000, "KB" )
+    oled.text(0, 55, f"{val}   {keyCount}", 0x9900F9)
+    # print( "M", gc.mem_free()/1000, "KB" )
     return False
 
 # Function keyPressHandler
 for kbLayers in kbConfig[3]:
     for key in kbLayers:
         # if key != KC.MO(1):
-        key.after_press_handler(key_debug)
+        if hasattr(key, '_post_press_handlers') == False:
+            key.after_press_handler(key_debug)
 
 # Debug Timer
 def debugText():
@@ -95,8 +101,8 @@ def debugText():
     CPUTemp = str(int(microcontroller.cpus[0].temperature))
     Mem = str(int(gc.mem_free()/1000))
 
-    print("T", CPUTemp, "- M", Mem, "kB" )
-    oled.text(1, 5, f"{CPUTemp}° - {Mem} kB", 0xFFFF00)
+    # print("T", CPUTemp, "- M", Mem, "kB" )
+    oled.text(1, 45, f"{CPUTemp}° - {Mem} kB", 0x00FFFF)
 
 # tim4 = pyb.Timer(4, freq=10)
 # tim4.callback(lambda t: debugText())
